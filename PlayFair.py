@@ -15,6 +15,22 @@ class Playfair:
         """
         new_alphabet = [x for x in self.ascii_alphabet if x not in self.keyword]
         return new_alphabet
+    def del_punctuation_and_number(self, text):
+        """
+        Usuwanie interpunkcji z tekstu
+        :param text: tekst z interpunkcją
+        :return: tekst bez interpunkcji
+        """
+        punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+        no_punct = ""
+        for char in text:
+            try:
+                number = int(char)
+            except:
+                if char not in punctuations:
+                    no_punct = no_punct + char
+        return no_punct
+
     def split_text(self, text):
         """
         Zamiana tekstu na same duże litery oraz podzał tekstu na osobne słowa
@@ -206,8 +222,8 @@ class Playfair:
         """
         with open(self.input) as f:
             text = f.read()
-
-        splited_text = self.split_text(text)
+        no_pun = self.del_punctuation_and_number(text)
+        splited_text = self.split_text(no_pun)
 
         without_double_letter = self.check_double_letter(splited_text)
 
